@@ -4,6 +4,7 @@ import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { db, storage } from '../firebase';
 import { useApp } from '../App';
 import { differenceInDays } from 'date-fns';
+import { resizeImage } from '../utils';
 
 const EditProfileModal = ({ onClose }: { onClose: () => void }) => {
     const { user, userProfile } = useApp();
@@ -29,8 +30,9 @@ const EditProfileModal = ({ onClose }: { onClose: () => void }) => {
             let photoURL = userProfile?.photoURL;
 
             if (profileImage) {
+                const resizedBlob = await resizeImage(profileImage, 400); // Resize to max 400px
                 const storageRef = ref(storage, `profile_images/${user.uid}`);
-                await uploadBytes(storageRef, profileImage);
+                await uploadBytes(storageRef, resizedBlob);
                 photoURL = await getDownloadURL(storageRef);
             }
 
