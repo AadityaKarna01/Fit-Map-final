@@ -8,11 +8,89 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <style>
       body {
         font-family: 'Inter', sans-serif;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
+      }
+      /* Login Screen Background */
+      .login-background {
+        background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=2070&auto=format&fit=crop');
+        background-size: cover;
+        background-position: center;
+      }
+      /* Custom Leaflet dark theme styles */
+      .leaflet-control-layers {
+          background: #1f2937; /* gray-800 */
+          border: 1px solid #374151; /* gray-700 */
+          color: #f9fafb; /* gray-50 */
+          border-radius: 8px;
+      }
+      .leaflet-control-layers-base label, .leaflet-control-layers-overlays label {
+        color: #f9fafb; /* gray-50 */
+      }
+      .leaflet-control-zoom-in, .leaflet-control-zoom-out {
+          background-color: #374151 !important; /* gray-700 */
+          color: #f9fafb !important; /* gray-50 */
+          border-color: #4b5563 !important; /* gray-600 */
+      }
+      .leaflet-control-zoom-in:hover, .leaflet-control-zoom-out:hover {
+          background-color: #4b5563 !important; /* gray-600 */
+      }
+      .leaflet-popup-content-wrapper, .leaflet-popup-tip {
+          background: #1f2937; /* gray-800 */
+          color: #f9fafb; /* gray-50 */
+          border: 1px solid #374151; /* gray-700 */
+          border-radius: 8px;
+      }
+      .leaflet-container a.leaflet-popup-close-button {
+        color: #9ca3af;
+      }
+      /* Custom user location marker */
+      .player-marker {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 44px;
+        height: 44px;
+        background-color: rgba(34, 197, 94, 0.3); /* green-500 with opacity */
+        border-radius: 50%;
+        border: 2px solid #22c55e; /* green-500 */
+        animation: pulse 2s infinite;
+      }
+      .player-marker svg {
+        width: 28px;
+        height: 28px;
+        color: #f0fdf4; /* green-50 */
+      }
+
+      /* Territory Labels */
+      .territory-label {
+        background-color: transparent;
+        border: none;
+        box-shadow: none;
+        color: white;
+        font-weight: 900;
+        font-size: 1rem;
+        text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(0.95);
+          box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
+        }
+        70% {
+          transform: scale(1);
+          box-shadow: 0 0 0 10px rgba(34, 197, 94, 0);
+        }
+        100% {
+          transform: scale(0.95);
+          box-shadow: 0 0 0 0 rgba(34, 197, 94, 0);
+        }
       }
     </style>
   <script type="importmap">
@@ -31,11 +109,6 @@
   }
 }
 </script>
-<!-- 
-  !!! IMPORTANT !!!
-  Replace YOUR_GOOGLE_MAPS_API_KEY with your actual Google Maps API key.
--->
-<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&libraries=places"></script>
 </head>
   <body class="bg-gray-900 text-white">
     <div id="root"></div>

@@ -4,9 +4,8 @@ import { db } from '../firebase';
 import { useApp } from '../App';
 import { Workout, UserProfile } from '../types';
 import { TargetIcon, BadgeIcon, TrophyIcon } from './icons';
-// Fix: Import date-fns functions from their specific paths to resolve module resolution issues.
-import subDays from 'date-fns/subDays';
-import isWithinInterval from 'date-fns/isWithinInterval';
+// Fix: Corrected date-fns imports to use named exports to resolve module resolution issues.
+import { subDays, isWithinInterval } from 'date-fns';
 
 const Leaderboard = () => {
     const [topUsers, setTopUsers] = useState<(UserProfile & { totalDistance: number })[]>([]);

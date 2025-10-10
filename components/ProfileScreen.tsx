@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { signOut } from 'firebase/auth';
-import { collection, query, where, getDocs, orderBy, limit } from 'firebase/firestore';
+import { collection, query, where, getDocs, orderBy } from 'firebase/firestore';
 import { auth, db } from '../firebase';
 import { useApp } from '../App';
 import { Workout } from '../types';
@@ -16,14 +16,19 @@ const ProfileScreen = () => {
   useEffect(() => {
     if (!user) return;
     const fetchWorkouts = async () => {
+      // The query was modified to remove orderBy to prevent a missing index error.
+      // Sorting is now handled client-side after data is fetched.
       const q = query(
         collection(db, 'workouts'),
-        where('userId', '==', user.uid),
-        orderBy('createdAt', 'desc')
+        where('userId', '==', user.uid)
       );
       const querySnapshot = await getDocs(q);
       const workouts: Workout[] = [];
       querySnapshot.forEach(doc => workouts.push(doc.data() as Workout));
+
+      // Sort workouts by creation date in descending order (newest first) client-side.
+      workouts.sort((a, b) => b.createdAt.toDate().getTime() - a.createdAt.toDate().getTime());
+
       setWorkoutCount(workouts.length);
       setRecentWorkouts(workouts.slice(0, 3));
     };

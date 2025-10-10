@@ -7,7 +7,7 @@ import {
 } from 'firebase/auth';
 import { doc, setDoc, serverTimestamp } from 'firebase/firestore';
 import { auth, db } from '../firebase';
-import { FacebookIcon, TwitterIcon, RunIcon } from './icons';
+import { FacebookIcon, GoogleIcon } from './icons';
 
 const LoginScreen = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -68,14 +68,14 @@ const LoginScreen = () => {
   }
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-900 p-4">
+    <div className="min-h-screen flex flex-col items-center justify-center p-4 login-background">
       <div className="w-full max-w-sm text-center">
-        <div className="flex justify-center items-center gap-3 mb-6">
-            <RunIcon className="w-12 h-12 text-cyan-400" />
-            <h1 className="text-5xl font-black text-white tracking-tighter">FITMAP</h1>
-        </div>
-
-        <p className="text-gray-400 mb-8">Your ultimate fitness & social companion.</p>
+        <h1 className="text-4xl font-bold text-white tracking-tight">
+          {isLogin ? 'LOG IN' : 'SIGN UP'}
+        </h1>
+        <p className="text-gray-300 mt-2 mb-8">
+          Unlock Your City's Territories
+        </p>
 
         {error && <p className="bg-red-500/20 text-red-400 p-3 rounded-lg mb-4 text-sm">{error}</p>}
         {message && <p className="bg-green-500/20 text-green-400 p-3 rounded-lg mb-4 text-sm">{message}</p>}
@@ -87,57 +87,58 @@ const LoginScreen = () => {
               placeholder="Display Name"
               value={displayName}
               onChange={(e) => setDisplayName(e.target.value)}
-              className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-400"
+              className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-400"
               required
             />
           )}
           <input
             type="email"
-            placeholder="Email"
+            placeholder="EMAIL"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-400"
+            className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-400"
             required
           />
           <input
             type="password"
-            placeholder="Password"
+            placeholder="PASSWORD"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-400"
+            className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-400"
             required
           />
           <button
             type="submit"
-            className="w-full py-3 bg-cyan-500 hover:bg-cyan-600 text-gray-900 font-bold rounded-lg transition-colors"
+            className="w-full py-3 bg-gradient-to-r from-cyan-400 to-blue-500 hover:opacity-90 text-white font-bold rounded-lg transition-opacity"
           >
-            {isLogin ? 'Log In' : 'Sign Up'}
+            {isLogin ? 'LOGIN' : 'SIGN UP'}
           </button>
         </form>
         
-        <div className="text-right mt-2">
-            <button onClick={handlePasswordReset} className="text-xs text-cyan-400 hover:underline">Forgot Password?</button>
-        </div>
-
+        {isLogin && (
+            <div className="text-center mt-4">
+                <button onClick={handlePasswordReset} className="text-sm text-gray-300 hover:underline">
+                    Forgot Password?
+                </button>
+            </div>
+        )}
 
         <div className="flex items-center my-6">
-          <div className="flex-grow border-t border-gray-700"></div>
-          <span className="mx-4 text-gray-500 text-sm">or continue with</span>
-          <div className="flex-grow border-t border-gray-700"></div>
+          <div className="flex-grow border-t border-gray-600"></div>
         </div>
 
-        <div className="flex gap-4">
-          <button className="flex-1 flex items-center justify-center gap-2 py-3 bg-gray-800 hover:bg-gray-700 text-white font-semibold rounded-lg transition-colors border border-gray-700">
-            <FacebookIcon className="w-5 h-5" /> Facebook
+        <div className="flex flex-col gap-4">
+          <button className="flex w-full items-center justify-center gap-3 py-3 bg-white/90 hover:bg-white text-gray-800 font-semibold rounded-lg transition-colors border border-gray-300">
+            <GoogleIcon className="w-5 h-5" /> Continue with Google
           </button>
-          <button className="flex-1 flex items-center justify-center gap-2 py-3 bg-gray-800 hover:bg-gray-700 text-white font-semibold rounded-lg transition-colors border border-gray-700">
-            <TwitterIcon className="w-5 h-5" /> Twitter
+          <button className="flex w-full items-center justify-center gap-3 py-3 bg-blue-600/90 hover:bg-blue-600 text-white font-semibold rounded-lg transition-colors">
+            <FacebookIcon className="w-5 h-5" /> Continue with Facebook
           </button>
         </div>
 
-        <p className="text-sm text-gray-500 mt-8">
+        <p className="text-sm text-gray-300 mt-8">
           {isLogin ? "Don't have an account?" : "Already have an account?"}
-          <button onClick={() => {setIsLogin(!isLogin); setError('');}} className="font-semibold text-cyan-400 hover:underline ml-1">
+          <button onClick={() => {setIsLogin(!isLogin); setError('');}} className="font-semibold text-white hover:underline ml-1">
             {isLogin ? 'Sign Up' : 'Log In'}
           </button>
         </p>
