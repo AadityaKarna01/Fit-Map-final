@@ -1,5 +1,7 @@
 {
   "name": "FITMAP",
   "description": "A comprehensive fitness and social platform designed to enhance users’ workout experience while keeping them connected with friends and fitness locations.",
-  "requestFramePermissions": []
+  "requestFramePermissions": [
+    "geolocation"
+  ]
 }
